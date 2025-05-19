@@ -11,8 +11,9 @@ public class RoomAdventure { // Main class containing game logic
     final private static String DEFAULT_STATUS =
         "Sorry, I do not understand. Try [verb] [noun]. Valid verbs include 'go', 'look', and 'take'."; // Default error message
 
-
-
+    // Handle Functions
+    
+    // Handle Go
     private static void handleGo(String noun) { // Handles moving between rooms
         String[] exitDirections = currentRoom.getExitDirections(); // Get available directions
         Room[] exitDestinations = currentRoom.getExitDestinations(); // Get rooms in those directions
@@ -25,6 +26,7 @@ public class RoomAdventure { // Main class containing game logic
         }
     }
 
+    // Handle Look
     private static void handleLook(String noun) { // Handles inspecting items
         String[] items = currentRoom.getItems(); // Visible items in current room
         String[] itemDescriptions = currentRoom.getItemDescriptions(); // Descriptions for each item
@@ -36,6 +38,7 @@ public class RoomAdventure { // Main class containing game logic
         }
     }
 
+    // Handle Take
     private static void handleTake(String noun) { // Handles picking up items
         String[] grabbables = currentRoom.getGrabbables(); // Items that can be taken
         status = "I can't grab that."; // Default if not grabbable
