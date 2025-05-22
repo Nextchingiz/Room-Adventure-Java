@@ -95,7 +95,7 @@ public class RoomAdventure { // Main class containing game logic
             System.out.println("|         ||         |"); // Player not there
         }
         
-        System.out.println("|         ||         |\n|         ||         |"); // Empty
+        System.out.println("|                    |\n|         ||         |"); // Empty
         System.out.println("****  **********  ****"); // Middle wall
         System.out.println("   |  |        |  |   "); // Vertical walls
         System.out.println("****  **********  ****"); // Middle wall
@@ -109,7 +109,7 @@ public class RoomAdventure { // Main class containing game logic
         } else if (currentRoom.getName().equals("Room 3")) {
             System.out.println("|         ||  {+}    |"); // Player in Room 3
         } else {
-            System.out.println("|         ||         |"); // Player not there
+            System.out.println("|                    |"); // Player not there
         }
         
         System.out.println("|         ||         |\n|         ||         |"); // Empty
