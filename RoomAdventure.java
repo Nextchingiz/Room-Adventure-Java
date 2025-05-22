@@ -58,7 +58,7 @@ public class RoomAdventure { // Main class containing game logic
 
     // Handle Open (New Feature)
     private static void handleOpen(String noun) { // Handles opening objects
-        if (noun.equals("chest") && currentRoom.equals("Room 4")) { // Only works on the chest in Room 4
+        if (noun.equals("chest") && currentRoom.getName().equals("Room 4")) { // Only works on the chest in Room 4
             if (!chestOpened) { // If chest has not been opened yet
                 chestOpened = true; // Set the value to true
                 // Automatically add key to the player's inventory
@@ -87,9 +87,9 @@ public class RoomAdventure { // Main class containing game logic
         System.out.print("| Room 1  || Room 2  |\n|         ||         |\n");
         
         // Player marker for top
-        if (currentRoom.equals("Room 1")) {
+        if (currentRoom.getName().equals("Room 1")) {
             System.out.println("|  {+}    ||         |"); // Player in Room 1
-        } else if (currentRoom.equals("Room 2")) {
+        } else if (currentRoom.getName().equals("Room 2")) {
             System.out.println("|         ||  {+}    |"); // Player in Room 2
         } else {
             System.out.println("|         ||         |"); // Player not there
@@ -104,9 +104,9 @@ public class RoomAdventure { // Main class containing game logic
         System.out.print("| Room 4  || Room 3  |\n|         ||         |\n");
         
         // Player marker for bottom
-        if (currentRoom.equals("Room 4")) {
+        if (currentRoom.getName().equals("Room 4")) {
             System.out.println("|  {+}    ||         |"); // Player in Room 4
-        } else if (currentRoom.equals("Room 3")) {
+        } else if (currentRoom.getName().equals("Room 3")) {
             System.out.println("|         ||  {+}    |"); // Player in Room 3
         } else {
             System.out.println("|         ||         |"); // Player not there
@@ -254,6 +254,11 @@ class Room { // Represents a game room
 
     public Room(String name) { // Constructor
         this.name = name; // Set the room's name
+    }
+
+    // Add getName() method
+    public String getName() {
+        return name;
     }
 
     public void setExitDirections(String[] exitDirections) { // Setter for exits
