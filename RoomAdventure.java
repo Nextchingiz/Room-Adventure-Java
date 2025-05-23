@@ -56,6 +56,24 @@ public class RoomAdventure { // Main class containing game logic
         }
     }
 
+    // Handle Drop (New Feature)
+    private static void handleDrop(String noun) {
+    for (int i = 0; i < inventory.length; i++) {
+        if (noun.equals(inventory[i])) {
+            inventory[i] = null; // Remove from inventory
+
+            // Add item to room's grabbables
+            List<String> updatedGrabbables = new ArrayList<>(Arrays.asList(currentRoom.getGrabbables()));
+            updatedGrabbables.add(noun);
+            currentRoom.setGrabbables(updatedGrabbables.toArray(new String[0]));
+
+            status = "You dropped the " + noun + ".";
+            return;
+        }
+    }
+    status = "You don't have that item.";
+}
+
     // Handle Open (New Feature)
     private static void handleOpen(String noun) { // Handles opening objects
         if (noun.equals("chest") && currentRoom.getName().equals("Room 4")) { // Only works on the chest in Room 4
@@ -242,6 +260,9 @@ public class RoomAdventure { // Main class containing game logic
                     break;
                 case "take": // If verb is 'take'
                     handleTake(noun); // Pick up an item
+                    break;
+                case "drop":
+                    handleDrop(noun);
                     break;
                 case "open": // If verb is 'open'
                     handleOpen(noun); // Open an object
