@@ -74,6 +74,17 @@ public class RoomAdventure { // Main class containing game logic
     status = "You don't have that item.";
 }
 
+    private static void showHelp() {
+        status = "Available commands:\n" +
+             "- go [direction] (e.g., 'go north')\n" +
+             "- look [item] (e.g., 'look desk')\n" +
+             "- take [item] (e.g., 'take key')\n" +
+             "- drop [item] (e.g., 'drop coal')\n" +
+             "- help [any] (e.g., 'help me')\n" +
+             "Note: Type two words only: a verb and a noun.";
+}
+
+
     // Handle Open (New Feature)
     private static void handleOpen(String noun) { // Handles opening objects
         if (noun.equals("chest") && currentRoom.getName().equals("Room 4")) { // Only works on the chest in Room 4
@@ -242,10 +253,14 @@ public class RoomAdventure { // Main class containing game logic
             String input = s.nextLine(); // Read entire line of input
             String[] words = input.split(" "); // Split input into words
 
-            if (words.length != 2) { // Check for proper two-word command
-                status = DEFAULT_STATUS; // Set status to error message
-                System.out.println(status); // Display error
-                continue; // Skip to next loop iteration
+            if (words.length == 1 && words[0].equals("help")) { // fixed problem because it had to take in two words. if typed help itll work
+                showHelp();
+                System.out.println(status);
+                continue;
+            } else if (words.length != 2) {
+                status = DEFAULT_STATUS;
+                System.out.println(status);
+                continue;
             }
 
             String verb = words[0]; // First word is the action verb
@@ -263,6 +278,9 @@ public class RoomAdventure { // Main class containing game logic
                     break;
                 case "drop":
                     handleDrop(noun);
+                    break;
+                case "help":
+                    showHelp(); // 👈 Call help method
                     break;
                 case "open": // If verb is 'open'
                     handleOpen(noun); // Open an object
