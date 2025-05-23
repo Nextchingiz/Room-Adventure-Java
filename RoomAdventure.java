@@ -6,14 +6,11 @@ public class RoomAdventure { // Main class containing game logic
     private static Room currentRoom; // The room the player is currently in
     private static String[] inventory = {null, null, null, null, null}; // Player inventory slots
     private static String status; // Message to display after each action
-    private static boolean chestOpened = false; // Check if the chest in Room 4 has been opened, it can only be opened once
 
     // constants
     final private static String DEFAULT_STATUS =
-        "Sorry, I do not understand. Try [verb] [noun]. Valid verbs include 'go', 'look', 'take', and 'open'."; // Default error message
+        "Sorry, I do not understand. Try [verb] [noun]. Valid verbs include 'go', 'look', and 'take'."; // Default error message
 
-    // Handle functions
-    
     // Handle Go
     private static void handleGo(String noun) { // Handles moving between rooms
         String[] exitDirections = currentRoom.getExitDirections(); // Get available directions
@@ -56,30 +53,6 @@ public class RoomAdventure { // Main class containing game logic
         }
     }
 
-    // Handle Open (New Feature)
-    private static void handleOpen(String noun) { // Handles opening objects
-        if (noun.equals("chest") && currentRoom.getName().equals("Room 4")) { // Only works on the chest in Room 4
-            if (!chestOpened) { // If chest has not been opened yet
-                chestOpened = true; // Set the value to true
-                // Automatically add key to the player's inventory
-                for (int j = 0; j < inventory.length; j++) { // Check the inventory and if it is full
-                    if (inventory[j] == null) { // If there is an empty space
-                        inventory[j] = "key"; // Add the key to the inventory
-                        status = "You opened the chest and found a key! It's been added to your inventory.";
-                        break; // Exit loop
-                    }
-                }
-                if (status == null) { // Alternative route, if the inventory is full
-                    status = "You opened the chest and found a key, but your inventory is full!";
-                }
-            } else { // If the chest has been already opened
-                status = "The chest is already open.";
-            }
-        } else { // If the player tries to open something else
-            status = "I can't open that.";
-        }
-    }
-
     // Draw Map (New Function)
     private static void drawMap() { // Draws the game map with the player's position as {+}
         System.out.println("\n**********************"); // Top
@@ -95,7 +68,7 @@ public class RoomAdventure { // Main class containing game logic
             System.out.println("|         ||         |"); // Player not there
         }
         
-        System.out.println("|                    |\n|         ||         |"); // Empty
+        System.out.println("|         ||         |\n|         ||         |"); // Empty
         System.out.println("****  **********  ****"); // Middle wall
         System.out.println("   |  |        |  |   "); // Vertical walls
         System.out.println("****  **********  ****"); // Middle wall
@@ -109,16 +82,29 @@ public class RoomAdventure { // Main class containing game logic
         } else if (currentRoom.getName().equals("Room 3")) {
             System.out.println("|         ||  {+}    |"); // Player in Room 3
         } else {
-            System.out.println("|                    |"); // Player not there
+            System.out.println("|         ||         |"); // Player not there
         }
         
         System.out.println("|         ||         |\n|         ||         |"); // Empty
-        System.out.println("**********************\n"); // Bottom wall
+        System.out.println("****  ****************"); // Bottom wall
+        System.out.println("   |  |    "); // Vertical walls
+        System.out.println("****  *****"); // Bottom wall
+        
+        // Room 5
+        System.out.print("| Room 5  |\n|         |\n");
+        
+        // Player marker for Room 5
+        if (currentRoom.getName().equals("Room 5")) {
+            System.out.println("|  {+}    |"); // Player in Room 5
+        } else {
+            System.out.println("|         |"); // Player not there
+        }
+        
+        System.out.println("|         |\n|         |"); // Empty
+        System.out.println("***********\n"); // Bottom wall
     }
 
-    // Setup Game
     private static void setupGame() { // Initializes game world
-
         // Create all the Rooms
         Room room1 = new Room("Room 1"); // Create Room 1
         Room room2 = new Room("Room 2"); // Create Room 2
@@ -178,7 +164,7 @@ public class RoomAdventure { // Main class containing game logic
         Room[] room4ExitDestinations = {room1, room3, room5}; // Destination rooms for Room 4
         String[] room4Items = {"chest", "mirror"}; // Items in Room 4
         String[] room4ItemDescriptions = { // Descriptions for Room 4 items
-            "A sturdy wooden chest with an iron lock. It looks like it might contain something important.",
+            "The chest is locked",
             "The mirror shows a reflection of another room"
         };
         String[] room4Grabbables = {"locket"}; // Items you can take in Room 4
@@ -188,19 +174,19 @@ public class RoomAdventure { // Main class containing game logic
         room4.setItemDescriptions(room4ItemDescriptions); // Set item descriptions
         room4.setGrabbables(room4Grabbables); // Set grabbable items
 
-    // Setup Room 5 (bottom-left)
-    String[] room5ExitDirections = {"north"}; // Room 5 exits
-    Room[] room5ExitDestinations = {room4}; // Destination rooms for Room 5
-    String[] room5Items = {"cheese"}; // Items in Room 5
-    String[] room5ItemDescriptions = { // Descriptions for Room 5 items
-        "A single plate of cheese",
-    };
-    String[] room5Grabbables = {"cheese"}; // Items you can take in Room 5
-    room4.setExitDirections(room5ExitDirections); // Set exits
-    room4.setExitDestinations(room5ExitDestinations); // Set exit destinations
-    room4.setItems(room5Items); // Set visible items
-    room4.setItemDescriptions(room5ItemDescriptions); // Set item descriptions
-    room4.setGrabbables(room5Grabbables); // Set grabbable items
+        // Setup Room 5 (bottom-left)
+        String[] room5ExitDirections = {"north"}; // Room 5 exits
+        Room[] room5ExitDestinations = {room4}; // Destination rooms for Room 5
+        String[] room5Items = {"cheese"}; // Items in Room 5
+        String[] room5ItemDescriptions = { // Descriptions for Room 5 items
+            "A single plate of cheese",
+        };
+        String[] room5Grabbables = {"cheese"}; // Items you can take in Room 5
+        room5.setExitDirections(room5ExitDirections); // Set exits
+        room5.setExitDestinations(room5ExitDestinations); // Set exit destinations
+        room5.setItems(room5Items); // Set visible items
+        room5.setItemDescriptions(room5ItemDescriptions); // Set item descriptions
+        room5.setGrabbables(room5Grabbables); // Set grabbable items
 
         currentRoom = room1; // Start game in Room 1
     }
@@ -243,13 +229,6 @@ public class RoomAdventure { // Main class containing game logic
                 case "take": // If verb is 'take'
                     handleTake(noun); // Pick up an item
                     break;
-                case "open": // If verb is 'open'
-                    handleOpen(noun); // Open an object
-                    break;
-                case "map": // Alternative way to view map
-                    drawMap(); // Redraw map
-                    status = ""; // Clear status
-                    break;
                 default: // If verb is unrecognized
                     status = DEFAULT_STATUS; // Set status to error message
             }
@@ -271,7 +250,6 @@ class Room { // Represents a game room
         this.name = name; // Set the room's name
     }
 
-    // Add getName() method
     public String getName() {
         return name;
     }
